@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: myapprise
+  namespace: apprise-ns
+spec:
+  chart:
+    spec:
+      chart: polymorphic-app
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: apprise-app-helm
+  interval: 1m0s
+  values:
+    services:
+    - healthcheck:
+        enabled: false
+        path: ""
+        type: ""
+      image:
+        repository: caronc/apprise
+        tag: latest
+      ingress:
+        enabled: true
+        hosts:
+        - host: myappriseapp.com
+          paths:
+          - path: /
+            pathType: Prefix
+            serviceName: mysvc
+            servicePort: 8000
+      minReplicaCount: 1
+      name: mysvc
+      service:
+        enabled: true
+        ports:
+        - name: mysvc
+          port: 8000
+          protocol: TCP
+          targetPort: 8000
+        type: ClusterIP
+
