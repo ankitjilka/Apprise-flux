@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: apprise-app-helm
+  namespace: apprise-ns
+spec:
+  interval: 1m0s
+  url: https://improwised.github.io/charts/
+
