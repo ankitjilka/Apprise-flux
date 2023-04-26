@@ -13,8 +13,6 @@ spec:
         kind: HelmRepository
         name: improwised-helm-source
         namespace: flux-system
-  install:
-    createnamespace: true
   interval: 1m0s
   values:
     services:
@@ -28,7 +26,7 @@ spec:
       ingress:
         enabled: true
         hosts:
-        - host: apprise.improwised.dev
+        - host: apprise.improwised.com
           paths:
           - path: /
             pathType: Prefix
