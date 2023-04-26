@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: myapprise
-  namespace: apprise-ns
+  name: apprise-helmrelease
+  namespace: apprise
 spec:
   chart:
     spec:
@@ -11,7 +11,10 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: apprise-app-helm
+        name: improwised-helm-source
+        namespace: flux-system
+  install:
+    createnamespace: true
   interval: 1m0s
   values:
     services:
@@ -25,7 +28,7 @@ spec:
       ingress:
         enabled: true
         hosts:
-        - host: myappriseapp.com
+        - host: apprise.improwised.dev
           paths:
           - path: /
             pathType: Prefix
@@ -41,4 +44,3 @@ spec:
           protocol: TCP
           targetPort: 8000
         type: ClusterIP
-
